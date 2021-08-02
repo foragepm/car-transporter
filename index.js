@@ -26,12 +26,12 @@ const handler = async function (req, res) {
   var query = url.parse(req.url,true).query
   var result = await transport(query.cid, query.filename)
 
-  if {result.cid}{
+  if (result.cid){
     res.writeHead(200);
   } else {
     res.writeHead(500);
   }
-  
+
   res.end();
 }
 
