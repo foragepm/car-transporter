@@ -19,13 +19,19 @@ async function transport(cid, filename) {
   })
   var json = await upload.json()
   console.log(json)
+  return json
 }
 
 const handler = async function (req, res) {
   var query = url.parse(req.url,true).query
-  await transport(query.cid, query.filename)
+  var result = await transport(query.cid, query.filename)
 
-  res.writeHead(200);
+  if {result.cid}{
+    res.writeHead(200);
+  } else {
+    res.writeHead(500);
+  }
+  
   res.end();
 }
 
