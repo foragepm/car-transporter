@@ -30,4 +30,4 @@ const handler = async function (req, res) {
 }
 
 const server = http.createServer(handler);
-server.listen(process.env.port || 8080);
+server.listen(process.env.PORT || 8080);
