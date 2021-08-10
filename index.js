@@ -6,6 +6,7 @@ var token = process.env.WEB3_TOKEN
 var ipfs_api = process.env.IPFS_API
 
 async function transport(cid, filename) {
+  if(!cid){ return {} }
   console.log('Uploading', cid, filename)
   var url = `${ipfs_api}/api/v0/dag/export?arg=${cid}&carversion=1`
   var download = await fetch(url, { method: 'POST' })
