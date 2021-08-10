@@ -24,7 +24,7 @@ async function transport(cid, filename) {
   } else {
     json.cid = cid
     json.filename = filename
-    console.error(json)
+    console.error(JSON.stringify(json))
   }
   return json
 }
