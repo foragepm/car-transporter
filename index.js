@@ -18,7 +18,13 @@ async function transport(cid, filename) {
     body: download.body
   })
   var json = await upload.json()
-  console.log(json)
+  if (json.cid){
+    console.log(json)
+  } else {
+    json.cid = cid
+    json.filename = filename
+    console.error(json)
+  }
   return json
 }
 
