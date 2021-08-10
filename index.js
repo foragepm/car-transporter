@@ -22,9 +22,10 @@ async function transport(cid, filename) {
   if (json.cid){
     console.log(json)
   } else {
-    json.cid = cid
-    json.filename = filename
-    console.error(JSON.stringify(json))
+    var error = json
+    error.cid = cid
+    error.filename = filename
+    console.error(JSON.stringify(error))
   }
   return json
 }
