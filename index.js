@@ -42,7 +42,7 @@ async function transport(cid, filename) {
     }
     return json
   } catch (error) {
-  	console.log('timeout error');
+  	console.log(JSON.stringify({error: "timeout", cid: cid, filename: filename}));
     return {}
   } finally {
   	clearTimeout(timeout);
