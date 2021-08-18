@@ -98,7 +98,6 @@ async function transport(cid, filename) {
 const handler = async function (req, res) {
   var parsedUrl = url.parse(req.url,true)
   var query = parsedUrl.query
-  console.log(parsedUrl)
 
   if(parsedUrl.pathname == '/upload'){
     var result = await upload(query.url, query.filename)
