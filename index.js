@@ -100,7 +100,11 @@ const handler = async function (req, res) {
   var query = parsedUrl.query
 
   if(parsedUrl.pathname == '/upload'){
-    var result = await upload(query.url, query.filename)
+    if(query.url){
+      var result = await upload(query.url, query.filename)
+    } else {
+      var result = {}
+    }
   } else {
     var result = await transport(query.cid, query.filename)
   }
