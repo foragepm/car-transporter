@@ -32,7 +32,7 @@ async function upload(url, filename) {
     var json = await upload.json()
     json.length = length
     if (json.cid){
-      console.log(json)
+      console.log(JSON.stringify(json))
     } else {
       var error = json
       error.url = url
