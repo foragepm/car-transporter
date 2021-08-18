@@ -89,9 +89,11 @@ async function transport(cid, filename) {
       error.length = txt.length
       console.error(JSON.stringify(error))
     }
+    clearTimeout(timeout);
     return json
   } catch (error) {
   	console.log(JSON.stringify({error: "timeout", cid: cid, filename: filename}));
+    clearTimeout(timeout);
     return {}
   } finally {
   	clearTimeout(timeout);
