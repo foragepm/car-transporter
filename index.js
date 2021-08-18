@@ -45,7 +45,7 @@ async function upload(url, filename) {
     }
     return json
   } catch (error) {
-    console.log(JSON.stringify({error: "timeout", cid: cid, filename: filename}));
+    console.log(JSON.stringify({error: "timeout", cid: cid, filename: filename, length: length}));
     return {}
   } finally {
     clearTimeout(timeout);
