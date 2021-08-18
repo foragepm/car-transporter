@@ -19,6 +19,13 @@ async function upload(url, filename) {
   var txt = await downloadClone.text()
   var length = txt.length
 
+  var max_size = 1024*30
+
+  if (length > max_size){
+    console.log(JSON.stringify({url: url, length: length, error: 'too big'}))
+    return {}
+  }
+
   try {
     var upload = await fetch(`https://api.web3.storage/upload`, {
       method: 'POST',
