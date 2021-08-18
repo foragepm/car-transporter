@@ -9,15 +9,14 @@ var ipfs_api = process.env.IPFS_API
 async function upload(url, filename) {
   var download = await fetch(url)
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => {
+  var controller = new AbortController();
+  var timeout = setTimeout(() => {
     controller.abort();
-  }, 1000*25);
+  }, 1000*20);
 
-  const downloadClone = await download.clone();
+  var downloadClone = await download.clone();
 
-  var txt = await downloadClone.text()
-  var length = txt.length
+  var length = (await downloadClone.text()).length
 
   var max_size = 1024*30
 
@@ -45,9 +44,6 @@ async function upload(url, filename) {
       error.url = url
       error.filename = filename
 
-      var download = await fetch(url)
-      var txt = await download.text()
-      error.length = txt.length
       console.error(JSON.stringify(error))
     }
     return json
