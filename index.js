@@ -12,7 +12,7 @@ async function upload(url, filename) {
   const controller = new AbortController();
   const timeout = setTimeout(() => {
     controller.abort();
-  }, 1000*30);
+  }, 1000*25);
 
   const downloadClone = await download.clone();
 
