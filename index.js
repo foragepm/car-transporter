@@ -7,6 +7,7 @@ var token = process.env.WEB3_TOKEN
 var ipfs_api = process.env.IPFS_API
 
 async function upload(url, filename) {
+  console.time(`download ${filename}`)
   var download = await fetch(url)
 
   var controller = new AbortController();
@@ -14,9 +15,14 @@ async function upload(url, filename) {
     controller.abort();
   }, 1000*20);
 
-  var downloadClone = await download.clone();
+  if (download.headers.get('content-length')){
+    var length = download.headers.get('content-length')
+  } else {
+    var downloadClone = await download.clone();
+    var length = (await downloadClone.text()).length
+  }
 
-  var length = (await downloadClone.text()).length
+  console.timeEnd(`download ${filename}`)
 
   var max_size = 1024*1000*20
 
@@ -26,6 +32,7 @@ async function upload(url, filename) {
   }
 
   try {
+    console.time(`upload ${filename} (${length})`)
     var upload = await fetch(`https://api.web3.storage/upload`, {
       method: 'POST',
       headers: {
@@ -36,6 +43,7 @@ async function upload(url, filename) {
       signal: controller.signal
     })
     var json = await upload.json()
+    console.timeEnd(`upload ${filename} (${length})`)
     json.length = length
     if (json.cid){
       console.log(JSON.stringify(json))
