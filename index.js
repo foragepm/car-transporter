@@ -7,7 +7,7 @@ var token = process.env.WEB3_TOKEN
 var ipfs_api = process.env.IPFS_API
 
 async function upload(url, filename) {
-  console.time(`download ${filename}`)
+  var downloadStart = Date.now()
   var download = await fetch(url)
 
   var controller = new AbortController();
@@ -22,7 +22,8 @@ async function upload(url, filename) {
     var length = (await downloadClone.text()).length
   }
 
-  console.timeEnd(`download ${filename}`)
+  var downloadEnd = Date.now()
+  var downloadTime = downloadEnd-downloadStart
 
   var max_size = 1024*1000*20
 
@@ -32,7 +33,7 @@ async function upload(url, filename) {
   }
 
   try {
-    console.time(`upload ${filename} (${length})`)
+    var uploadStart = Date.now()
     var upload = await fetch(`https://api.web3.storage/upload`, {
       method: 'POST',
       headers: {
@@ -43,8 +44,14 @@ async function upload(url, filename) {
       signal: controller.signal
     })
     var json = await upload.json()
-    console.timeEnd(`upload ${filename} (${length})`)
+    var uploadEnd = Date.now()
+
+    var uploadTime = uploadEnd-uploadStart
+
+    json.filename = filename
     json.length = length
+    json.download = downloadTime
+    json.upload = uploadTime
     if (json.cid){
       console.log(JSON.stringify(json))
     } else {
@@ -56,7 +63,8 @@ async function upload(url, filename) {
     }
     return json
   } catch (error) {
-    console.log(JSON.stringify({error: "timeout", cid: cid, filename: filename, length: length}));
+    console.error(error)
+    console.log(JSON.stringify({error: "timeout", filename: filename, length: length}));
     return {}
   } finally {
     clearTimeout(timeout);
