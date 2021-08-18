@@ -75,7 +75,7 @@ async function transport(cid, filename) {
     })
     var json = await upload.json()
     if (json.cid){
-      console.log(json)
+      console.log(JSON.stringify(json))
     } else {
       var error = json
       error.cid = cid
