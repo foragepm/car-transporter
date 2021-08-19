@@ -9,10 +9,11 @@ var ipfs_api = process.env.IPFS_API
 
 async function hash(url) {
   var download = await fetch(url)
-  var data = await download.text()
-  var cid = await Hash.of(data, {cidVersion: 1})
+  var downloadClone = await download.clone();
+  var length = (await downloadClone.text()).length
+  var cid = await Hash.of(download.body, {cidVersion: 1, rawLeaves: true})
   var json = {}
-  json.length = data.length
+  json.length = length
   json.cid = cid
   return json
 }
