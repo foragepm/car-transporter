@@ -2,9 +2,20 @@ const http = require('http')
 const fetch = require('node-fetch');
 const url = require('url');
 const AbortController = require('abort-controller');
+const Hash = require('ipfs-only-hash')
 
 var token = process.env.WEB3_TOKEN
 var ipfs_api = process.env.IPFS_API
+
+async function hash(url) {
+  var download = await fetch(url)
+  var data = await download.text()
+  var cid = await Hash.of(data, {cidVersion: 1})
+  var json = {}
+  json.length = data.length
+  json.cid = cid
+  return json
+}
 
 async function upload(url, filename) {
   var downloadStart = Date.now()
@@ -123,6 +134,12 @@ const handler = async function (req, res) {
   if(parsedUrl.pathname == '/upload'){
     if(query.url){
       var result = await upload(query.url, query.filename)
+    } else {
+      var result = {}
+    }
+  } else if (parsedUrl.pathname == '/hash') {
+    if(query.url){
+      var result = await hash(query.url)
     } else {
       var result = {}
     }
