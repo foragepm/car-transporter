@@ -37,7 +37,7 @@ async function upload(url, filename) {
   var downloadEnd = Date.now()
   var downloadTime = downloadEnd-downloadStart
 
-  var max_size = 1024*1000*20
+  var max_size = 1024*1000*30
 
   if (length > max_size){
     console.log(JSON.stringify({url: url, length: length, error: 'too big'}))
