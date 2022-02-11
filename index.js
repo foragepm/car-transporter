@@ -41,7 +41,7 @@ async function upload(url, filename) {
 
   if (length > max_size){
     console.log(JSON.stringify({url: url, length: length, error: 'too big'}))
-    return {}
+    return {length: length, error: 'too big'}
   }
 
   try {
@@ -77,7 +77,7 @@ async function upload(url, filename) {
   } catch (error) {
     console.error(error)
     console.log(JSON.stringify({error: "timeout", filename: filename, length: length}));
-    return {}
+    return {error: "timeout", length: length}
   } finally {
     clearTimeout(timeout);
   }
